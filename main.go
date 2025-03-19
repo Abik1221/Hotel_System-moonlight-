@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +16,8 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 
-	log.Fatal(router.Run(":" + port))
+	router.GET("/", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"message": "hellow world", "name": "namhom Keneni"}) })
+
+	router.Run(":" + port)
 
 }

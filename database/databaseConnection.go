@@ -4,9 +4,11 @@ import (
 	"context"
 	"log"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func dbInstance() *mongo.Client {
@@ -17,12 +19,11 @@ func dbInstance() *mongo.Client {
 	}
 
 	mongoUrl := os.Getenv("MONGO_URL")
-
-	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.second)
+	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongoUrl))
-	if err != nil{
+	if err != nil {
 		log.Fatal("error while creating mongo client")
 		return nil
 	}
@@ -37,3 +38,7 @@ func dbInstance() *mongo.Client {
 }
 
 var Client *mongo.Client = dbInstance()
+
+func OpenCollection() mongo.OpenCollection{
+	return mongoCollection 
+}
